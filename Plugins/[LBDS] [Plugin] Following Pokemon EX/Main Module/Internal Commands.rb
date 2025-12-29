@@ -102,6 +102,7 @@ module FollowingPkmn
   # Check if the Following Pokemon can be spoken to, or not
   #-----------------------------------------------------------------------------
   def self.can_talk?(interact = false)
+    return false if !FollowingPkmn::CAN_TALK_WITH_POKEMON
     return false if !FollowingPkmn.can_check?
     return false if !$game_temp || $game_temp.in_battle || $game_temp.in_menu
     return false if FollowingPkmn.get_event.move_route_forcing
