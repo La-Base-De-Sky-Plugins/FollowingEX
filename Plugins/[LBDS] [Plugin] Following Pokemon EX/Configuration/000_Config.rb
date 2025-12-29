@@ -145,5 +145,8 @@ module FollowingPkmn
 
   # Permitir el follow dentro de edificios a Pokémon de más de 3 m.
   TALL_POKEMON_INDOOR = true
+
+  # Permitir que el jugador hable con el Pokémon que le sigue.
+  CAN_TALK_WITH_POKEMON = true
   
 end
