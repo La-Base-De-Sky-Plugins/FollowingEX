@@ -152,11 +152,13 @@ module Game
   def self.load(*args)
     __followingpkmn__load(*args)
     FollowingPkmn.clear_frozen_state
+    FollowingPkmn.reset_follower_position
   end
 
   def self.load_map(*args)
     __followingpkmn__load_map(*args)
     FollowingPkmn.clear_frozen_state
+    FollowingPkmn.reset_follower_position
     FollowingPkmn.refresh(false)
   end
 end
@@ -185,6 +187,15 @@ module FollowingPkmn
     end
     # Re-enable menu in case it was disabled during a Following Pokemon interaction
     $game_system.menu_disabled = false if $game_system
+  end
+
+   # Reset follower position to be next to the player
+  def self.reset_follower_position
+    return if !$game_temp || !$PokemonGlobal || !$game_player
+    # Force recreation of the follower factory to properly link with loaded save data
+    $game_temp.instance_variable_set(:@followers, nil)
+    # This will trigger the lazy initialization with fresh data from $PokemonGlobal
+    $game_temp.followers
   end
 end
 
