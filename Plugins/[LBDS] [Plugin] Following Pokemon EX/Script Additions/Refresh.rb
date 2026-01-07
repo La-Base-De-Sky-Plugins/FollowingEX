@@ -209,11 +209,42 @@ module BattleCreationHelperMethods
 
   def self.after_battle(*args)
     __followingpkmn__after_battle(*args)
-    # Teleportiere Follower zur Spielerposition nach Kampf
+    
+    # Lógica de posicionamiento post-batalla
     if FollowingPkmn.can_check? && FollowingPkmn.get_event
       event = FollowingPkmn.get_event
-      event.moveto($game_player.x, $game_player.y) if event
+      player = $game_player
+      map = $game_map
+      
+      # Calcular coordenadas en frente del jugador
+      d = player.direction
+      front_x = player.x + (d == 6 ? 1 : d == 4 ? -1 : 0)
+      front_y = player.y + (d == 2 ? 1 : d == 8 ? -1 : 0)
+      
+      # Fallback para casillas transitables
+      if map.valid?(front_x, front_y) && map.passable?(front_x, front_y, 0, event)
+        # Hay espacio enfrente
+        event.moveto(front_x, front_y)
+        event.direction = player.direction 
+      else
+        # No hay espacio enfrente)
+        # El Pokémon toma la posición del jugador
+        old_player_x = player.x
+        old_player_y = player.y
+        
+        # Calcular coordenadas detrás del jugador para moverlo
+        back_x = player.x - (d == 6 ? 1 : d == 4 ? -1 : 0)
+        back_y = player.y - (d == 2 ? 1 : d == 8 ? -1 : 0)
+
+        if map.valid?(back_x, back_y) && map.passable?(player.x, player.y, 10 - d, player)
+          player.moveto(back_x, back_y)
+        end
+        
+        event.moveto(old_player_x, old_player_y)
+        pbTurnTowardEvent(event, player)
+      end
     end
+    
     FollowingPkmn.refresh(false)
     $PokemonGlobal.call_refresh = true
   end

@@ -227,7 +227,7 @@ class Game_FollowingPkmn < Game_Follower
       new_terrain = $map_factory.getTerrainTag(self.map.map_id, self.x, self.y)
       if old_terrain && (old_terrain.can_surf != new_terrain.can_surf)
         pkmn = FollowingPkmn.get_pokemon
-        FollowingPkmn.change_sprite(pkmn) if pkmn
+        FollowingPkmn.change_sprite(pkmn) if pkmn && FollowingPkmn.active?
       end
     end
   end
