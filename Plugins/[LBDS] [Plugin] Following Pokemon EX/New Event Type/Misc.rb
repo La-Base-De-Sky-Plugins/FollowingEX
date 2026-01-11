@@ -5,6 +5,8 @@
 class PokemonGlobalMetadata
   # Variable to check whether the Following Pokemon has been toggled
   attr_reader   :follower_toggled
+  # Variable to lock the toggle state of the Following Pokemon
+  attr_accessor :follower_toggle_locked
   # Variable to track the time the Following Pokemon has been behind the player
   attr_accessor :time_taken
   # Variable to check whether the Following Pokemon is holding an item
@@ -15,6 +17,12 @@ class PokemonGlobalMetadata
   attr_accessor :current_diving
   # Queue a refresh for the Following Pokemon forcefully
   attr_accessor :call_refresh
+
+  alias init_following_pkmn_lock initialize
+  def initialize
+    init_following_pkmn_lock
+    @follower_toggle_locked = false
+  end
 
   def follower_toggled=(value)
     @follower_toggled = value

@@ -128,14 +128,3 @@ module FollowingPkmn
   end
   #-----------------------------------------------------------------------------
 end
-
-
-class PokemonGlobalMetadata
-  attr_accessor :follower_toggle_locked
-
-  alias init_following_pkmn_lock initialize
-  def initialize
-    init_following_pkmn_lock
-    @follower_toggle_locked = false
-  end
-end

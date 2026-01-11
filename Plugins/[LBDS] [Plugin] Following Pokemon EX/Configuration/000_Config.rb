@@ -26,14 +26,18 @@ module FollowingPkmn
 
   # La tecla que el jugador debe presionar para alternar los Pokémon que te siguen. Establece esto como nil (nulo)
   # si deseas deshabilitar esta función. (:JUMPUP es la tecla A por defecto)
-  TOGGLE_FOLLOWER_KEY       = :JUMPUP
+  TOGGLE_FOLLOWER_KEY       = Input::JUMPUP
 
   # Mostrar la opción para alternar los Pokémon que te siguen en la pantalla de Opciones.
   SHOW_TOGGLE_IN_OPTIONS    = true
 
-  # La tecla que el jugador debe presionar para recorrer rápidamente su grupo de Pokémon. Establece esto como nil (nulo)
-  # si deseas deshabilitar esta función.
-  CYCLE_PARTY_KEY           = nil
+  # Esta tecla permite al jugador recorrer rápidamente su equipo de Pokémon. 
+  # Establece ENABLE_PARTY_CYCLING como true si quieres activar esta funcion
+  # Input::JUMPDOWN es la tecla S - rota el grupo hacia adelante (el primer Pokémon va al final)
+  # Input::AUX2 es la tecla W - rota el grupo hacia atrás (el último Pokémon va al principio)
+  ENABLE_PARTY_CYCLING     = false
+  CYCLE_PARTY_FORWARD_KEY  = Input::JUMPDOWN
+  CYCLE_PARTY_BACKWARD_KEY = Input::AUX2
 
   # Tonos de estado a utilizar, si esto es verdadero (Rojo, Verde, Azul)
   APPLY_STATUS_TONES        = true
@@ -142,11 +146,59 @@ module FollowingPkmn
     :QUAXLY, :QUAXWELL, :QUAQUAVAL, :WIGLETT, :WUGTRIO, :FLAMIGO
   ]
 
+  #-----------------------------------------------------------------------------
+  # Fly Animation Settings
+  #-----------------------------------------------------------------------------
+  # Set to true to disable the fly animation
+  DISABLE_FLY_ANIMATION = false
+
 
   # Permitir el follow dentro de edificios a Pokémon de más de 3 m.
   TALL_POKEMON_INDOOR = true
 
   # Permitir que el jugador hable con el Pokémon que le sigue.
   CAN_TALK_WITH_POKEMON = true
-  
+
+  #-----------------------------------------------------------------------------
+  # Distance Setting
+  #-----------------------------------------------------------------------------
+  # La distancia en píxeles para alejar visualmente al seguidor lejos del jugador
+  # para evitar superposiciones.
+  FOLLOWER_DISTANCE_OFFSET = 8
+
+  # Offsets específicos de distancia para ciertos Pokémon (por ejemplo, sprites grandes).
+  # Úsalo para anular el offset predeterminado anterior.
+  # Formato: :ESPECIE => offset_en_píxeles
+  FOLLOWER_DISTANCE_EXCEPTIONS = {
+    # Gen 1
+    :VENUSAUR   => 16, :CHARIZARD  => 16, :BLASTOISE  => 16,
+    :ONIX       => 24, :GYARADOS   => 24, :LAPRAS     => 16,
+    :SNORLAX    => 16, :ARTICUNO   => 16, :ZAPDOS     => 16,
+    :MOLTRES    => 16, :DRAGONITE  => 16, :MEWTWO     => 16,
+    :RHYDON     => 16,
+    # Gen 2
+    :MEGANIUM   => 16, :FERALIGATR => 16, :STEELIX    => 24,
+    :LUGIA      => 24, :HOOH       => 24, :TYRANITAR  => 16,
+    # Gen 3
+    :SCEPTILE   => 16, :SWAMPERT   => 16, :WAILORD    => 32,
+    :AGGRON     => 16, :METAGROSS  => 16, :REGIROCK   => 16,
+    :REGICE     => 16, :REGISTEEL  => 16, :KYOGRE     => 32,
+    :GROUDON    => 32, :RAYQUAZA   => 32,
+    # Gen 4
+    :TORTERRA   => 24, :GARCHOMP   => 16, :RHYPERIOR  => 24,
+    :DIALGA     => 32, :PALKIA     => 32, :HEATRAN    => 16,
+    :REGIGIGAS  => 24, :GIRATINA   => 32, :ARCEUS     => 24,
+    # Gen 5
+    :SERPERIOR  => 16, :SCOLIPEDE  => 24, :GIGALITH   => 16,
+    :RESHIRAM   => 32, :ZEKROM     => 32, :KYUREM     => 32,
+    # Gen 6
+    :XERNEAS    => 24, :YVELTAL    => 24, :ZYGARDE    => 32,
+    :HOOPA      => 24, :VOLCANION  => 16,
+    # Gen 7
+    :SOLGALEO   => 24, :LUNALA     => 24, :NECROZMA   => 24,
+    :GUZZLORD   => 32, :STAKATAKA  => 32,
+    # Gen 8
+    :ETERNATUS  => 32, :ZAMAZENTA  => 16, :ZACIAN     => 16,
+    :CALYREX    => 16, :REGIDRAGO  => 16, :REGIELEKI  => 16
+  }
 end

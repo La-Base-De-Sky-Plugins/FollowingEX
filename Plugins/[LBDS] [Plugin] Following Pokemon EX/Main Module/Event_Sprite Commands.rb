@@ -62,14 +62,12 @@ module FollowingPkmn
     folder = shiny ? "Swimming Shiny" : "Swimming"
     ret = GameData::Species.check_graphic_file("Graphics/Characters/", pkmn.species, pkmn.form,
                                                pkmn.gender, shiny, pkmn.shadow, folder)
-    echoln "  Swimming sprite check for #{pkmn.name}: #{ret}"
     return true if !nil_or_empty?(ret)
     
     # Check for levitate sprite (for airborne Pokemon over water)
     folder = shiny ? "Levitates Shiny" : "Levitates"
     ret = GameData::Species.check_graphic_file("Graphics/Characters/", pkmn.species, pkmn.form,
                                                pkmn.gender, shiny, pkmn.shadow, folder)
-    echoln "  Levitate sprite check for #{pkmn.name}: #{ret}"
     return !nil_or_empty?(ret)
   end
   #-----------------------------------------------------------------------------
@@ -134,8 +132,6 @@ module FollowingPkmn
       anim_id   = FollowingPkmn.const_get(anim_name) if FollowingPkmn.const_defined?(anim_name)
       if event && anim_id
         $scene&.spriteset&.addUserAnimation(anim_id, event.x, event.y, false, 1)
-        # pbMoveRoute($game_player, [PBMoveRoute::WAIT, 2])
-        # pbWait(Graphics.frame_rate/300)
       end
     end
     FollowingPkmn.change_sprite(first_pkmn) if ret
